@@ -1,3 +1,9 @@
 /build
 .gradle
 .metadata
+**/.classpath
+**/.project
+**/.settings
+**/bin
+**/build
+.recommenders/
