@@ -19,12 +19,14 @@ public class CoffeRegister {
 	}
 
 	public void debitCoffe(Account account, CoffeType coffeType) {
-		debits.add(new Debit(Instant.now(), account.getId(), coffeType, priceList.getPrice(coffeType)));
+		BigDecimal priceForCoffeType = priceList.getPrice(coffeType);
+		Debit newDebit = new Debit(Instant.now(), account.getId(), coffeType, priceForCoffeType);
+		debits.add(newDebit);
 	}
 
 	public Bill createBill(Account account) {
 		BigDecimal calculatedSum = debits.stream()
-				.filter(debit -> Objects.equals(account.getId(), debit.getAccountId()))
+				.filter(debit -> account.getId().equals(debit.getAccountId()))
 				.map(debit -> debit.getPrice())
 				.reduce(new BigDecimal("0.0"), (partialSum, price) -> partialSum.add(price));
 		return new Bill(account, calculatedSum);
