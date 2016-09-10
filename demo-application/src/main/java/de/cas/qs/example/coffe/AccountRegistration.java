@@ -1,5 +1,6 @@
 package de.cas.qs.example.coffe;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,5 +31,9 @@ public class AccountRegistration {
 
 	private boolean existsAnAccountWithName(String name) {
 		return accounts.stream().anyMatch(account -> account.getName().equals(name));
+	}
+
+	public List<Account> getRegisteredAccounts() {
+		return Collections.unmodifiableList(accounts);
 	}
 }

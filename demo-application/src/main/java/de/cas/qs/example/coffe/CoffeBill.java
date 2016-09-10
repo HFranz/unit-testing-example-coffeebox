@@ -1,23 +1,21 @@
 package de.cas.qs.example.coffe;
 
 import java.math.BigDecimal;
+import java.util.Map;
+import java.util.UUID;
+
+import com.google.common.collect.Maps;
 
 public class CoffeBill {
 
-	private Account account;
-	private BigDecimal sum;
+	private Map<UUID, BigDecimal> accountsDues = Maps.newHashMap();
 
-	public CoffeBill(Account account, BigDecimal sum) {
-		this.account = account;
-		this.sum = sum;
+	public CoffeBill(Map<UUID, BigDecimal> accountsDues) {
+		this.accountsDues = accountsDues;
 	}
 
-	public BigDecimal getSum() {
-		return sum;
+	public BigDecimal getSum(Account account) {
+		return accountsDues.get(account.getId());
 	}
 	
-	public Account getAccount() {
-		return account;
-	}
-
 }

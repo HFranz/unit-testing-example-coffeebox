@@ -3,9 +3,11 @@ package de.cas.qs.example.coffe;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public class CoffeRegister {
 
@@ -24,12 +26,16 @@ public class CoffeRegister {
 		debits.add(newDebit);
 	}
 
-	public CoffeBill createBill(Account account) {
-		BigDecimal calculatedSum = debits.stream()
-				.filter(debit -> account.getId().equals(debit.getAccountId()))
-				.map(debit -> debit.getPrice())
-				.reduce(new BigDecimal("0.0"), (partialSum, price) -> partialSum.add(price));
-		return new CoffeBill(account, calculatedSum);
+	public CoffeBill createBill() {
+		Map<UUID, BigDecimal> calculatedSums = Maps.newHashMap();
+		for (Account account : accountRegistration.getRegisteredAccounts()) {
+			BigDecimal calculatedSum = debits.stream()
+					.filter(debit -> account.getId().equals(debit.getAccountId()))
+					.map(debit -> debit.getPrice())
+					.reduce(new BigDecimal("0.0"), (partialSum, price) -> partialSum.add(price));
+			calculatedSums.put(account.getId(), calculatedSum);
+		}
+		return new CoffeBill(calculatedSums);
 	}
 
 }

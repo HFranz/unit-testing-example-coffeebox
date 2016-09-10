@@ -10,6 +10,8 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.Lists;
+
 public class CoffeRegisterTest {
 	private CoffePriceList priceList;
 	private AccountRegistration accountRegistration;
@@ -20,7 +22,7 @@ public class CoffeRegisterTest {
 	@Before
 	public void setup() {
 		accountRegistration = mock(AccountRegistration.class);
-		when(accountRegistration.getAccountOfUser(USER_NAME)).thenReturn(USER_ACCOUNT);
+		when(accountRegistration.getRegisteredAccounts()).thenReturn(Lists.newArrayList(USER_ACCOUNT));
 		priceList = new CoffePriceList();
 		coffeRegister = new CoffeRegister(priceList, accountRegistration);
 	}
@@ -31,8 +33,8 @@ public class CoffeRegisterTest {
 		
 		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		
-		CoffeBill bill = coffeRegister.createBill(USER_ACCOUNT);
-		assertThat(bill.getSum(), equalTo(new BigDecimal("0.5")));
+		CoffeBill bill = coffeRegister.createBill();
+		assertThat(bill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("0.5")));
 	}
 	
 	@Test
@@ -42,19 +44,19 @@ public class CoffeRegisterTest {
 		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		
-		CoffeBill bill = coffeRegister.createBill(USER_ACCOUNT);
-		assertThat(bill.getSum(), equalTo(new BigDecimal("1.0")));
+		CoffeBill bill = coffeRegister.createBill();
+		assertThat(bill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("1.0")));
 	}
 
 	@Test
 	public void testThatPriceChangeDoNotAffectExistingBills() throws Exception {
 		priceList.definePrice(CoffeType.COFFE, new BigDecimal("0.5"));
 		coffeRegister.debitCoffe(USER_ACCOUNT,  CoffeType.COFFE);
-		CoffeBill existingBill = coffeRegister.createBill(USER_ACCOUNT);
-		assertThat(existingBill.getSum(), equalTo(new BigDecimal("0.5")));
+		CoffeBill existingBill = coffeRegister.createBill();
+		assertThat(existingBill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("0.5")));
 		
 		priceList.definePrice(CoffeType.COFFE, new BigDecimal("3.0"));
 		
-		assertThat(existingBill.getSum(), equalTo(new BigDecimal("0.5")));
+		assertThat(existingBill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("0.5")));
 	}
 }
