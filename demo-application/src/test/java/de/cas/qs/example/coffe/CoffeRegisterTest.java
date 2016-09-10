@@ -1,11 +1,10 @@
 package de.cas.qs.example.coffe;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Optional;
+import java.math.BigDecimal;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,13 +17,6 @@ public class CoffeRegisterTest {
 	@Before
 	public void setup() {
 		coffeRegister = new CoffeRegister();
-	}
-
-	@Test
-	public void testCreationOfEmptyBill() throws Exception {
-		Bill bill = coffeRegister.createBill();
-		
-		assertTrue(bill.isEmpty());
 	}
 
 	@Test
@@ -45,7 +37,7 @@ public class CoffeRegisterTest {
 		
 		coffeRegister.debitCoffe(account, CoffeType.COFFE);
 		
-		Optional<DebitPosition> mostRecent = coffeRegister.getMostRecentDebitPositionOfAccount(account);
-		assertThat(mostRecent.get().getCoffe(), is(equalTo(CoffeType.COFFE)));
+		Bill bill = coffeRegister.createBill(account);
+		assertThat(bill.getSum(), equalTo(new BigDecimal("0.5")));
 	}
 }

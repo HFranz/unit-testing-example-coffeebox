@@ -12,11 +12,7 @@ import com.google.common.collect.Lists;
 public class CoffeRegister {
 
 	private List<Account> accounts = Lists.newArrayList();
-	private List<DebitPosition> debitPositions = Lists.newArrayList();
-
-	public Bill createBill() {
-		return new Bill();
-	}
+	private List<Debit> debitPositions = Lists.newArrayList();
 
 	public boolean createAccount(String name) {
 		if (existsAnAccountWithName(name))
@@ -41,13 +37,13 @@ public class CoffeRegister {
 	}
 
 	public void debitCoffe(Account account, CoffeType coffeType) {
-		debitPositions.add(new DebitPosition(Instant.now(), account.getId(), coffeType, new BigDecimal("0.0")));
+		debitPositions.add(new Debit(Instant.now(), account.getId(), coffeType, new BigDecimal("0.0")));
 	}
 
-	public Optional<DebitPosition> getMostRecentDebitPositionOfAccount(Account account) {
-		DebitPosition mostRecentDebitPosition = null;
+	public Optional<Debit> getMostRecentDebitPositionOfAccount(Account account) {
+		Debit mostRecentDebitPosition = null;
 
-		for (DebitPosition debitPosition : debitPositions) {
+		for (Debit debitPosition : debitPositions) {
 			if (!debitPosition.getAccountId().equals(account.getId()))
 				continue;
 
@@ -60,8 +56,12 @@ public class CoffeRegister {
 		return Optional.ofNullable(mostRecentDebitPosition);
 	}
 
-	private DebitPosition getLaterDebitPosition(DebitPosition first, DebitPosition second) {
+	private Debit getLaterDebitPosition(Debit first, Debit second) {
 		return first.getTimestamp().isAfter(second.getTimestamp()) ? first : second;
+	}
+
+	public Bill createBill(Account account) {
+		return new Bill(account);
 	}
 
 }
