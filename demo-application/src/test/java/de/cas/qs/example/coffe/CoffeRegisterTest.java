@@ -2,67 +2,56 @@ package de.cas.qs.example.coffe;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class CoffeRegisterTest {
-	
-	private static final String USER_NAME = "John Doe";
 	private CoffePriceList priceList;
+	private AccountRegistration accountRegistration;
 	private CoffeRegister coffeRegister;
+	private static final String USER_NAME = "John Doe";
+	private Account USER_ACCOUNT = new Account(UUID.randomUUID(), USER_NAME);
 	
 	@Before
 	public void setup() {
+		accountRegistration = mock(AccountRegistration.class);
+		when(accountRegistration.getAccountOfUser(USER_NAME)).thenReturn(USER_ACCOUNT);
 		priceList = new CoffePriceList();
-		coffeRegister = new CoffeRegister(priceList);
+		coffeRegister = new CoffeRegister(priceList, accountRegistration);
 	}
 
 	@Test
-	public void testCreationOfAccount() throws Exception {
-		assertTrue(coffeRegister.createAccount(USER_NAME));
-	}
-	
-	@Test
-	public void testThatOnlyOneAccountCanBeCreatedForAUser() throws Exception {
-		coffeRegister.createAccount(USER_NAME);
-		assertFalse(coffeRegister.createAccount(USER_NAME));
-	}
-	
-	@Test
 	public void testDebitOfCoffe() throws Exception {
-		coffeRegister.createAccount(USER_NAME);
-		Account account = coffeRegister.getAccountOfUser(USER_NAME);
 		priceList.definePrice(CoffeType.COFFE, new BigDecimal("0.5"));
 		
-		coffeRegister.debitCoffe(account, CoffeType.COFFE);
+		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		
-		Bill bill = coffeRegister.createBill(account);
+		Bill bill = coffeRegister.createBill(USER_ACCOUNT);
 		assertThat(bill.getSum(), equalTo(new BigDecimal("0.5")));
 	}
 	
 	@Test
 	public void testDebitOfMultipleCoffes() throws Exception {
-		coffeRegister.createAccount(USER_NAME);
-		Account account = coffeRegister.getAccountOfUser(USER_NAME);
 		priceList.definePrice(CoffeType.COFFE, new BigDecimal("0.5"));
 		
-		coffeRegister.debitCoffe(account, CoffeType.COFFE);
-		coffeRegister.debitCoffe(account, CoffeType.COFFE);
+		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
+		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		
-		Bill bill = coffeRegister.createBill(account);
+		Bill bill = coffeRegister.createBill(USER_ACCOUNT);
 		assertThat(bill.getSum(), equalTo(new BigDecimal("1.0")));
 	}
 
 	@Test
 	public void testThatPriceChangeDoNotAffectExistingBills() throws Exception {
-		coffeRegister.createAccount(USER_NAME);
-		Account account = coffeRegister.getAccountOfUser(USER_NAME);
 		priceList.definePrice(CoffeType.COFFE, new BigDecimal("0.5"));
-		coffeRegister.debitCoffe(account,  CoffeType.COFFE);
-		Bill existingBill = coffeRegister.createBill(account);
+		coffeRegister.debitCoffe(USER_ACCOUNT,  CoffeType.COFFE);
+		Bill existingBill = coffeRegister.createBill(USER_ACCOUNT);
 		assertThat(existingBill.getSum(), equalTo(new BigDecimal("0.5")));
 		
 		priceList.definePrice(CoffeType.COFFE, new BigDecimal("3.0"));
