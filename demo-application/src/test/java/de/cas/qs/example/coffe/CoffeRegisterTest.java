@@ -1,5 +1,6 @@
 package de.cas.qs.example.coffe;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -23,7 +24,8 @@ public class CoffeRegisterTest {
 	public void setup() {
 		accountRegistration = mock(AccountRegistration.class);
 		when(accountRegistration.getRegisteredAccounts()).thenReturn(Lists.newArrayList(USER_ACCOUNT));
-		priceList = new CoffePriceList();
+		priceList = mock(CoffePriceList.class);
+		when(priceList.getPrice(CoffeType.COFFE)).thenReturn(new BigDecimal("0.5"));
 		coffeRegister = new CoffeRegister(priceList, accountRegistration);
 	}
 
@@ -34,40 +36,31 @@ public class CoffeRegisterTest {
 		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		
 		CoffeBill bill = coffeRegister.createBill();
-		assertThat(bill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("0.5")));
+		assertThat(bill.getSum(USER_ACCOUNT), is(equalTo(new BigDecimal("0.5"))));
 	}
 	
 	@Test
 	public void testDebitOfMultipleCoffes() throws Exception {
-		priceList.definePrice(CoffeType.COFFE, new BigDecimal("0.5"));
-		
 		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		
 		CoffeBill bill = coffeRegister.createBill();
-		assertThat(bill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("1.0")));
-	}
-
-	@Test
-	public void testThatPriceChangeDoNotAffectExistingBills() throws Exception {
-		priceList.definePrice(CoffeType.COFFE, new BigDecimal("0.5"));
-		coffeRegister.debitCoffe(USER_ACCOUNT,  CoffeType.COFFE);
-		CoffeBill existingBill = coffeRegister.createBill();
-		assertThat(existingBill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("0.5")));
-		
-		priceList.definePrice(CoffeType.COFFE, new BigDecimal("3.0"));
-		
-		assertThat(existingBill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("0.5")));
+		assertThat(bill.getSum(USER_ACCOUNT), is(equalTo(new BigDecimal("1.0"))));
 	}
 	
 	@Test
 	public void testThatDebitsAreClearedAfterBillCreation() throws Exception {
-		priceList.definePrice(CoffeType.COFFE, new BigDecimal("0.5"));
 		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		
 		coffeRegister.createBill();
 		
 		CoffeBill bill = coffeRegister.createBill();
-		assertThat(bill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("0.0")));
+		assertThat(bill.getSum(USER_ACCOUNT), is(equalTo(BigDecimal.ZERO)));
+	}
+	
+	@Test
+	public void testThatSumRemainsZeroIfNoCoffesAreDebited() throws Exception {
+		CoffeBill bill = coffeRegister.createBill();
+		assertThat(bill.getSum(USER_ACCOUNT), is(equalTo(BigDecimal.ZERO)));
 	}
 }

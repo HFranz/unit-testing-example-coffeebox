@@ -33,7 +33,8 @@ public class CoffeRegister {
 			List<Debit> accountDebitsForNextBill = debits.stream().filter(debit -> account.getId().equals(debit.getAccountId())).collect(Collectors.toList());
 			BigDecimal calculatedSum = accountDebitsForNextBill.stream()
 					.map(debit -> debit.getPrice())
-					.reduce(new BigDecimal("0.0"), (partialSum, price) -> partialSum.add(price));
+					.reduce(BigDecimal.ZERO, (sum, price) -> sum.add(price));
+			
 			calculatedSums.put(account.getId(), calculatedSum);
 			debits.removeAll(accountDebitsForNextBill);
 		}
