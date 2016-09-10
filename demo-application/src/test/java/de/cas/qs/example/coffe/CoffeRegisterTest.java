@@ -59,4 +59,15 @@ public class CoffeRegisterTest {
 		
 		assertThat(existingBill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("0.5")));
 	}
+	
+	@Test
+	public void testThatDebitsAreClearedAfterBillCreation() throws Exception {
+		priceList.definePrice(CoffeType.COFFE, new BigDecimal("0.5"));
+		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
+		
+		coffeRegister.createBill();
+		
+		CoffeBill bill = coffeRegister.createBill();
+		assertThat(bill.getSum(USER_ACCOUNT), equalTo(new BigDecimal("0.0")));
+	}
 }
