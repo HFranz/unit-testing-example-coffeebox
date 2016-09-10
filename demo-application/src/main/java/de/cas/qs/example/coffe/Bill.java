@@ -5,17 +5,19 @@ import java.math.BigDecimal;
 public class Bill {
 
 	private Account account;
+	private BigDecimal sum;
 
-	public Bill(Account account) {
+	public Bill(Account account, BigDecimal sum) {
 		this.account = account;
+		this.sum = sum;
 	}
 
-	public boolean isEmpty() {
-		return true;
+	public BigDecimal getSum() {
+		return sum;
 	}
-
-	public Object getSum() {
-		return new BigDecimal("0.5");
+	
+	public Account getAccount() {
+		return account;
 	}
 
 }

@@ -6,13 +6,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
 
 public class CoffeRegister {
 
 	private List<Account> accounts = Lists.newArrayList();
-	private List<Debit> debitPositions = Lists.newArrayList();
+	private List<Debit> debits = Lists.newArrayList();
+	private CoffePriceList priceList;
+
+	public CoffeRegister(CoffePriceList priceList) {
+		this.priceList = priceList;
+	}
 
 	public boolean createAccount(String name) {
 		if (existsAnAccountWithName(name))
@@ -37,31 +44,15 @@ public class CoffeRegister {
 	}
 
 	public void debitCoffe(Account account, CoffeType coffeType) {
-		debitPositions.add(new Debit(Instant.now(), account.getId(), coffeType, new BigDecimal("0.0")));
-	}
-
-	public Optional<Debit> getMostRecentDebitPositionOfAccount(Account account) {
-		Debit mostRecentDebitPosition = null;
-
-		for (Debit debitPosition : debitPositions) {
-			if (!debitPosition.getAccountId().equals(account.getId()))
-				continue;
-
-			if (Objects.isNull(mostRecentDebitPosition))
-				mostRecentDebitPosition = debitPosition;
-			else
-				mostRecentDebitPosition = getLaterDebitPosition(mostRecentDebitPosition, debitPosition);
-		}
-
-		return Optional.ofNullable(mostRecentDebitPosition);
-	}
-
-	private Debit getLaterDebitPosition(Debit first, Debit second) {
-		return first.getTimestamp().isAfter(second.getTimestamp()) ? first : second;
+		debits.add(new Debit(Instant.now(), account.getId(), coffeType, priceList.getPrice(coffeType)));
 	}
 
 	public Bill createBill(Account account) {
-		return new Bill(account);
+		BigDecimal calculatedSum = debits.stream()
+				.filter(debit -> Objects.equals(account.getId(), debit.getAccountId()))
+				.map(debit -> debit.getPrice())
+				.reduce(new BigDecimal("0.0"), (partialSum, price) -> partialSum.add(price));
+		return new Bill(account, calculatedSum);
 	}
 
 }
