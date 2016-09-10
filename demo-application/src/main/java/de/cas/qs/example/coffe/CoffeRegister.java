@@ -24,12 +24,12 @@ public class CoffeRegister {
 		debits.add(newDebit);
 	}
 
-	public Bill createBill(Account account) {
+	public CoffeBill createBill(Account account) {
 		BigDecimal calculatedSum = debits.stream()
 				.filter(debit -> account.getId().equals(debit.getAccountId()))
 				.map(debit -> debit.getPrice())
 				.reduce(new BigDecimal("0.0"), (partialSum, price) -> partialSum.add(price));
-		return new Bill(account, calculatedSum);
+		return new CoffeBill(account, calculatedSum);
 	}
 
 }

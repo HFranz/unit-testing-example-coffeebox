@@ -31,7 +31,7 @@ public class CoffeRegisterTest {
 		
 		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		
-		Bill bill = coffeRegister.createBill(USER_ACCOUNT);
+		CoffeBill bill = coffeRegister.createBill(USER_ACCOUNT);
 		assertThat(bill.getSum(), equalTo(new BigDecimal("0.5")));
 	}
 	
@@ -42,7 +42,7 @@ public class CoffeRegisterTest {
 		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		coffeRegister.debitCoffe(USER_ACCOUNT, CoffeType.COFFE);
 		
-		Bill bill = coffeRegister.createBill(USER_ACCOUNT);
+		CoffeBill bill = coffeRegister.createBill(USER_ACCOUNT);
 		assertThat(bill.getSum(), equalTo(new BigDecimal("1.0")));
 	}
 
@@ -50,7 +50,7 @@ public class CoffeRegisterTest {
 	public void testThatPriceChangeDoNotAffectExistingBills() throws Exception {
 		priceList.definePrice(CoffeType.COFFE, new BigDecimal("0.5"));
 		coffeRegister.debitCoffe(USER_ACCOUNT,  CoffeType.COFFE);
-		Bill existingBill = coffeRegister.createBill(USER_ACCOUNT);
+		CoffeBill existingBill = coffeRegister.createBill(USER_ACCOUNT);
 		assertThat(existingBill.getSum(), equalTo(new BigDecimal("0.5")));
 		
 		priceList.definePrice(CoffeType.COFFE, new BigDecimal("3.0"));
