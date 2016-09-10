@@ -4,16 +4,14 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import com.google.common.collect.Lists;
 
 public class CoffeRegister {
 
 	private AccountRegistration accountRegistration;
-	private List<Account> accounts = Lists.newArrayList();
-	private List<Debit> debits = Lists.newArrayList();
 	private CoffePriceList priceList;
+	private List<Debit> debits = Lists.newArrayList();
 
 	public CoffeRegister(CoffePriceList priceList, AccountRegistration accountRegistration) {
 		this.priceList = priceList;
