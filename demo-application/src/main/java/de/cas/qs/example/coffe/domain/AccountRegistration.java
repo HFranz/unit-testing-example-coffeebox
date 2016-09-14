@@ -1,4 +1,4 @@
-package de.cas.qs.example.coffe;
+package de.cas.qs.example.coffe.domain;
 
 import java.util.Collections;
 import java.util.List;
