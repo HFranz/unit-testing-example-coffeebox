@@ -1,5 +1,6 @@
 package de.cas.qs.example.coffe.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Account {
@@ -18,6 +19,19 @@ public class Account {
 	
 	public String getName() {
 		return name;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+		
+		if (obj == null || obj.getClass() != Account.class)
+			return false;
+		
+		Account other = (Account) obj;
+		
+		return Objects.equals(other.id, id) && Objects.equals(other.name, name);
 	}
 	
 }
