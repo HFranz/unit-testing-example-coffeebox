@@ -9,23 +9,24 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import example.coffe.boundary.UserRegistrationResponseBoundary;
+import example.coffe.boundary.AccountGateway;
+import example.coffe.boundary.UserRegistrationPresenter;
 import example.coffe.boundary.request.RegisterUserRequest;
 import example.coffe.boundary.response.RegisterationUserResponse;
-import example.coffe.entity.AccountRegistration;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountInteractorTest {
 	
 	private AccountInteractor interactor;
 	@Mock
-	private UserRegistrationResponseBoundary presenter;
+	private UserRegistrationPresenter presenter;
 	@Mock
-	private AccountRegistration accountRegistration;
+	private AccountGateway accountRegistration;
 	
 	@Before
 	public void setup() {
-		interactor = new AccountInteractor(accountRegistration, presenter);
+		interactor = new AccountInteractor(accountRegistration);
+		interactor.setUserRegistrationPresenter(presenter);
 	}
 	
 	@Test

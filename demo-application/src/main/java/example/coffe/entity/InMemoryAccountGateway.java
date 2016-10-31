@@ -7,10 +7,13 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-public class AccountRegistration {
+import example.coffe.boundary.AccountGateway;
+
+public class InMemoryAccountGateway implements AccountGateway {
 	
 	private List<Account> accounts = Lists.newArrayList();
 
+	@Override
 	public boolean createAccount(String name) {
 		if (existsAnAccountWithName(name))
 			return false;
@@ -19,6 +22,7 @@ public class AccountRegistration {
 		return true;
 	}
 	
+	@Override
 	public Account getAccountOfUser(final String name) {
 		Optional<Account> registeredAccount = accounts.stream().filter(account -> account.getName().equals(name))
 				.findFirst();
@@ -33,6 +37,7 @@ public class AccountRegistration {
 		return accounts.stream().anyMatch(account -> account.getName().equals(name));
 	}
 
+	@Override
 	public List<Account> getRegisteredAccounts() {
 		return Collections.unmodifiableList(accounts);
 	}

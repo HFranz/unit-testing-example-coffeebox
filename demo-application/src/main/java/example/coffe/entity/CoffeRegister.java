@@ -10,13 +10,15 @@ import java.util.stream.Collectors;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import example.coffe.boundary.AccountGateway;
+
 public class CoffeRegister {
 
-	private AccountRegistration accountRegistration;
+	private AccountGateway accountRegistration;
 	private CoffePriceList priceList;
 	private List<Debit> debits = Lists.newArrayList();
 
-	public CoffeRegister(CoffePriceList priceList, AccountRegistration accountRegistration) {
+	public CoffeRegister(CoffePriceList priceList, AccountGateway accountRegistration) {
 		this.priceList = priceList;
 		this.accountRegistration = accountRegistration;
 	}

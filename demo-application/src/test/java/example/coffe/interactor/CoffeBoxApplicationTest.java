@@ -11,11 +11,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import example.coffe.boundary.CoffeResponseBoundary;
+import example.coffe.boundary.AccountGateway;
+import example.coffe.boundary.CoffePresenter;
 import example.coffe.boundary.request.BuyCoffeRequest;
 import example.coffe.boundary.response.BuyCoffeResponse;
 import example.coffe.entity.Account;
-import example.coffe.entity.AccountRegistration;
 import example.coffe.entity.CoffeRegister;
 import example.coffe.entity.CoffeType;
 
@@ -26,9 +26,9 @@ public class CoffeBoxApplicationTest {
 	@Mock
 	private CoffeRegister coffeRegister;
 	@Mock
-	private AccountRegistration accountRegistration;
+	private AccountGateway accountRegistration;
 	@Mock
-	private CoffeResponseBoundary coffeBoxOutputBoundary;
+	private CoffePresenter coffeBoxOutputBoundary;
 	
 	private CoffeInteractor coffeBoxApp;
 	

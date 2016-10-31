@@ -23,4 +23,9 @@ public class BuyCoffeResponse {
 		return Objects.equals(message, other.message);
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(message);
+	}
+	
 }

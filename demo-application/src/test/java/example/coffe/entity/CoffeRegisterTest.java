@@ -13,8 +13,9 @@ import org.junit.Test;
 
 import com.google.common.collect.Lists;
 
+import example.coffe.boundary.AccountGateway;
 import example.coffe.entity.Account;
-import example.coffe.entity.AccountRegistration;
+import example.coffe.entity.InMemoryAccountGateway;
 import example.coffe.entity.CoffeBill;
 import example.coffe.entity.CoffePriceList;
 import example.coffe.entity.CoffeRegister;
@@ -22,14 +23,14 @@ import example.coffe.entity.CoffeType;
 
 public class CoffeRegisterTest {
 	private CoffePriceList priceList;
-	private AccountRegistration accountRegistration;
+	private AccountGateway accountRegistration;
 	private CoffeRegister coffeRegister;
 	private static final String USER_NAME = "John Doe";
 	private Account USER_ACCOUNT = new Account(UUID.randomUUID(), USER_NAME);
 	
 	@Before
 	public void setup() {
-		accountRegistration = mock(AccountRegistration.class);
+		accountRegistration = mock(InMemoryAccountGateway.class);
 		when(accountRegistration.getRegisteredAccounts()).thenReturn(Lists.newArrayList(USER_ACCOUNT));
 		priceList = mock(CoffePriceList.class);
 		when(priceList.getPrice(CoffeType.COFFE)).thenReturn(new BigDecimal("0.5"));

@@ -2,20 +2,19 @@ package example.coffe.interactor;
 
 import com.google.common.base.Strings;
 
-import example.coffe.boundary.UserRegistrationRequestBoundary;
-import example.coffe.boundary.UserRegistrationResponseBoundary;
+import example.coffe.boundary.AccountGateway;
+import example.coffe.boundary.UserRegistrationController;
+import example.coffe.boundary.UserRegistrationPresenter;
 import example.coffe.boundary.request.RegisterUserRequest;
 import example.coffe.boundary.response.RegisterationUserResponse;
-import example.coffe.entity.AccountRegistration;
 
-public class AccountInteractor implements UserRegistrationRequestBoundary {
+public class AccountInteractor implements UserRegistrationController {
 	
-	private UserRegistrationResponseBoundary presenter;
-	private AccountRegistration accountRegistration;
+	private UserRegistrationPresenter userRegistrationPresenter;
+	private AccountGateway accountGateway;
 	
-	public AccountInteractor(AccountRegistration accountRegistration, UserRegistrationResponseBoundary presenter) {
-		this.accountRegistration = accountRegistration;
-		this.presenter = presenter;
+	public AccountInteractor(AccountGateway accountGateway) {
+		this.accountGateway = accountGateway;
 	}
 	
 	@Override
@@ -24,16 +23,19 @@ public class AccountInteractor implements UserRegistrationRequestBoundary {
 		RegisterationUserResponse failingMessage = new RegisterationUserResponse("Failed");
 		
 		if (Strings.isNullOrEmpty(request.getName())) {
-			presenter.present(failingMessage);
+			userRegistrationPresenter.present(failingMessage);
 			return;
 		}
 
-		if (accountRegistration.createAccount(request.getName())) {
-			presenter.present(successMessage);
+		if (accountGateway.createAccount(request.getName())) {
+			userRegistrationPresenter.present(successMessage);
 		} else {
-			presenter.present(failingMessage);
+			userRegistrationPresenter.present(failingMessage);
 		}
 	
 	}
 
+	public void setUserRegistrationPresenter(UserRegistrationPresenter presenter) {
+		this.userRegistrationPresenter = presenter;
+	}
 }

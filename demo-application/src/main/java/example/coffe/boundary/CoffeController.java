@@ -2,7 +2,7 @@ package example.coffe.boundary;
 
 import example.coffe.boundary.request.BuyCoffeRequest;
 
-public interface CoffeRequestBoundary {
+public interface CoffeController {
 
 	void handle(BuyCoffeRequest request);
 	

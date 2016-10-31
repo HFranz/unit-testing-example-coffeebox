@@ -6,17 +6,18 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import example.coffe.entity.AccountRegistration;
+import example.coffe.boundary.AccountGateway;
+import example.coffe.entity.InMemoryAccountGateway;
 
 public class AccountRegistrationTest {
 	
 	private static final String USER_NAME = "John Doe";
 	
-	private AccountRegistration accountRegistration;
+	private AccountGateway accountRegistration;
 	
 	@Before
 	public void setup() {
-		this.accountRegistration = new AccountRegistration();
+		this.accountRegistration = new InMemoryAccountGateway();
 	}
 	
 	@Test
