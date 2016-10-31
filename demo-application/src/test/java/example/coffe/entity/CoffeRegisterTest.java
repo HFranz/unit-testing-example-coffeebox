@@ -1,4 +1,4 @@
-package example.coffe.domain;
+package example.coffe.entity;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,12 +13,12 @@ import org.junit.Test;
 
 import com.google.common.collect.Lists;
 
-import example.coffe.domain.Account;
-import example.coffe.domain.AccountRegistration;
-import example.coffe.domain.CoffeBill;
-import example.coffe.domain.CoffePriceList;
-import example.coffe.domain.CoffeRegister;
-import example.coffe.domain.CoffeType;
+import example.coffe.entity.Account;
+import example.coffe.entity.AccountRegistration;
+import example.coffe.entity.CoffeBill;
+import example.coffe.entity.CoffePriceList;
+import example.coffe.entity.CoffeRegister;
+import example.coffe.entity.CoffeType;
 
 public class CoffeRegisterTest {
 	private CoffePriceList priceList;

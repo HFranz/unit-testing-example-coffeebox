@@ -1,12 +1,12 @@
-package example.coffe.application;
+package example.coffe.boundary.response;
 
 import java.util.Objects;
 
-public class UserRegisterationResponse {
+public class RegisterationUserResponse {
 
 	private final String message;
 	
-	public UserRegisterationResponse(String message) {
+	public RegisterationUserResponse(String message) {
 		this.message = message;
 	}
 
@@ -19,10 +19,10 @@ public class UserRegisterationResponse {
 		if (this == obj)
 			return true;
 		
-		if (obj == null || obj.getClass() != UserRegisterationResponse.class)
+		if (obj == null || obj.getClass() != RegisterationUserResponse.class)
 			return false;
 		
-		UserRegisterationResponse other = (UserRegisterationResponse) obj;
+		RegisterationUserResponse other = (RegisterationUserResponse) obj;
 		
 		return Objects.equals(message, other.message);
 	}

@@ -1,4 +1,4 @@
-package example.coffe.domain;
+package example.coffe.entity;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import example.coffe.domain.AccountRegistration;
+import example.coffe.entity.AccountRegistration;
 
 public class AccountRegistrationTest {
 	

@@ -1,4 +1,4 @@
-package example.coffe.domain;
+package example.coffe.entity;
 
 import java.util.Collections;
 import java.util.List;

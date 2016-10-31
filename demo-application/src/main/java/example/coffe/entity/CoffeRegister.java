@@ -1,4 +1,4 @@
-package example.coffe.domain;
+package example.coffe.entity;
 
 import java.math.BigDecimal;
 import java.time.Instant;

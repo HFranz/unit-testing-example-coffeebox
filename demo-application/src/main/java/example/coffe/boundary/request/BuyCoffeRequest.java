@@ -1,6 +1,6 @@
-package example.coffe.application;
+package example.coffe.boundary.request;
 
-import example.coffe.domain.CoffeType;
+import example.coffe.entity.CoffeType;
 
 public class BuyCoffeRequest {
 

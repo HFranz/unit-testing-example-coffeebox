@@ -1,4 +1,4 @@
-package example.coffe.application;
+package example.coffe.boundary.response;
 
 import java.util.Objects;
 

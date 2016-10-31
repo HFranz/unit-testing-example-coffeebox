@@ -1,4 +1,4 @@
-package example.coffe.domain;
+package example.coffe.entity;
 
 public enum CoffeType {
 	COFFE,
