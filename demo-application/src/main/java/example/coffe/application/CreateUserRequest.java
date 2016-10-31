@@ -1,4 +1,4 @@
-package de.cas.qs.example.coffe.application;
+package example.coffe.application;
 
 public class CreateUserRequest {
 	

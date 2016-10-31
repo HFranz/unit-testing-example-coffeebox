@@ -1,4 +1,4 @@
-package de.cas.qs.example.coffe.application;
+package example.coffe.application;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,10 +11,16 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import de.cas.qs.example.coffe.domain.Account;
-import de.cas.qs.example.coffe.domain.AccountRegistration;
-import de.cas.qs.example.coffe.domain.CoffeRegister;
-import de.cas.qs.example.coffe.domain.CoffeType;
+import example.coffe.application.BuyCoffeRequest;
+import example.coffe.application.BuyCoffeResponse;
+import example.coffe.application.CoffeBoxApplication;
+import example.coffe.application.CoffeBoxOutputBoundary;
+import example.coffe.application.CreateUserRequest;
+import example.coffe.application.UserRegisterationResponse;
+import example.coffe.domain.Account;
+import example.coffe.domain.AccountRegistration;
+import example.coffe.domain.CoffeRegister;
+import example.coffe.domain.CoffeType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CoffeBoxApplicationTest {

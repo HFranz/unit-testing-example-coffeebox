@@ -1,4 +1,4 @@
-package de.cas.qs.example.coffe.domain;
+package example.coffe.domain;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,6 +12,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+
+import example.coffe.domain.Account;
+import example.coffe.domain.AccountRegistration;
+import example.coffe.domain.CoffeBill;
+import example.coffe.domain.CoffePriceList;
+import example.coffe.domain.CoffeRegister;
+import example.coffe.domain.CoffeType;
 
 public class CoffeRegisterTest {
 	private CoffePriceList priceList;
@@ -61,6 +68,7 @@ public class CoffeRegisterTest {
 	@Test
 	public void testThatSumRemainsZeroIfNoCoffesAreDebited() throws Exception {
 		CoffeBill bill = coffeRegister.createBill();
+		
 		assertThat(bill.getSum(USER_ACCOUNT), is(equalTo(BigDecimal.ZERO)));
 	}
 }

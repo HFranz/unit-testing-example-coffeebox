@@ -1,6 +1,6 @@
-package de.cas.qs.example.coffe.application;
+package example.coffe.application;
 
-import de.cas.qs.example.coffe.domain.CoffeType;
+import example.coffe.domain.CoffeType;
 
 public class BuyCoffeRequest {
 

@@ -1,4 +1,4 @@
-package de.cas.qs.example.coffe.domain;
+package example.coffe.domain;
 
 import java.util.Objects;
 import java.util.UUID;

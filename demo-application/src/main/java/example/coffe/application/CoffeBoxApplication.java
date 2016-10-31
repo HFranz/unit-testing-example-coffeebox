@@ -1,10 +1,10 @@
-package de.cas.qs.example.coffe.application;
+package example.coffe.application;
 
 import com.google.common.base.Strings;
 
-import de.cas.qs.example.coffe.domain.Account;
-import de.cas.qs.example.coffe.domain.AccountRegistration;
-import de.cas.qs.example.coffe.domain.CoffeRegister;
+import example.coffe.domain.Account;
+import example.coffe.domain.AccountRegistration;
+import example.coffe.domain.CoffeRegister;
 
 public class CoffeBoxApplication {
 	
