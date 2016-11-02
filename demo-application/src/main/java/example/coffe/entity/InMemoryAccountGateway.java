@@ -3,42 +3,30 @@ package example.coffe.entity;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import example.coffe.boundary.AccountGateway;
+import example.coffe.boundary.EntityGateway;
 
-public class InMemoryAccountGateway implements AccountGateway {
-	
+public class InMemoryAccountGateway implements EntityGateway<Account> {
+
 	private List<Account> accounts = Lists.newArrayList();
 
 	@Override
-	public boolean createAccount(String name) {
-		if (existsAnAccountWithName(name))
-			return false;
-
-		accounts.add(new Account(UUID.randomUUID(), name));
-		return true;
-	}
-	
-	@Override
-	public Account getAccountOfUser(final String name) {
-		Optional<Account> registeredAccount = accounts.stream().filter(account -> account.getName().equals(name))
+	public Account findById(String id) {
+		Optional<Account> registeredAccount = accounts.stream().filter(account -> account.getName().equals(id))
 				.findFirst();
 
-		if (registeredAccount.isPresent())
-			return registeredAccount.get();
-		else
-			throw new RuntimeException("There exists no account for " + name);
-	}
-
-	private boolean existsAnAccountWithName(String name) {
-		return accounts.stream().anyMatch(account -> account.getName().equals(name));
+		return registeredAccount.orElseThrow(() -> new RuntimeException("There exists no account for " + id));
 	}
 
 	@Override
-	public List<Account> getRegisteredAccounts() {
+	public List<Account> findAll() {
 		return Collections.unmodifiableList(accounts);
+	}
+
+	@Override
+	public void store(Account entity) {
+		accounts.add(entity);
 	}
 }

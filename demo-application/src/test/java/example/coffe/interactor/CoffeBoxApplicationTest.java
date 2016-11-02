@@ -11,8 +11,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import example.coffe.boundary.AccountGateway;
-import example.coffe.boundary.CoffePresenter;
+import example.coffe.boundary.EntityGateway;
+import example.coffe.boundary.OutputBoundary;
 import example.coffe.boundary.request.BuyCoffeRequest;
 import example.coffe.boundary.response.BuyCoffeResponse;
 import example.coffe.entity.Account;
@@ -23,28 +23,29 @@ import example.coffe.entity.CoffeType;
 public class CoffeBoxApplicationTest {
 
 	private static final String NAME = "Mister Foo";
+	
 	@Mock
 	private CoffeRegister coffeRegister;
 	@Mock
-	private AccountGateway accountRegistration;
+	private EntityGateway<Account> accountGateway;
 	@Mock
-	private CoffePresenter coffeBoxOutputBoundary;
+	private OutputBoundary<BuyCoffeResponse> buyCoffe;
 	
 	private CoffeInteractor coffeBoxApp;
 	
 	@Before
 	public void setup() {
-		coffeBoxApp = new CoffeInteractor(coffeRegister, accountRegistration, coffeBoxOutputBoundary);
+		coffeBoxApp = new CoffeInteractor(coffeRegister, accountGateway, buyCoffe);
 	}
 	
 	@Test
 	public void testThatCoffeIsOrderPasses() throws Exception {
 		Account account = new Account(UUID.randomUUID(), NAME);
-		when(accountRegistration.getAccountOfUser(NAME)).thenReturn(account);
+		when(accountGateway.findById(NAME)).thenReturn(account);
 		
 		coffeBoxApp.handle(new BuyCoffeRequest(CoffeType.COFFE, NAME));
 		
 		verify(coffeRegister).debitCoffe(account, CoffeType.COFFE);
-		verify(coffeBoxOutputBoundary).present(new BuyCoffeResponse("Success"));
+		verify(buyCoffe).output(new BuyCoffeResponse("Success"));
 	}
 }

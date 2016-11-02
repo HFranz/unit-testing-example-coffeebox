@@ -1,18 +1,19 @@
 package example.coffe.delivery.cli;
 
-import example.coffe.boundary.UserRegistrationController;
-import example.coffe.boundary.UserRegistrationPresenter;
+import example.coffe.boundary.OutputBoundary;
 import example.coffe.boundary.response.RegisterationUserResponse;
 
-public class CLIPresenter implements UserRegistrationPresenter {
+public class CLIPresenter implements OutputBoundary<RegisterationUserResponse> {
 
-	public CLIPresenter(UserRegistrationController requestBoundary) {
-		
-	}
+	private String viewModel;
 	
 	@Override
-	public void present(RegisterationUserResponse response) {
-		System.out.println("Response: " + response.getMessage());
+	public void output(RegisterationUserResponse response) {
+		viewModel = "Response: " + response.getMessage();
+	}
+	
+	public String getViewModel() {
+		return viewModel;
 	}
 
 }

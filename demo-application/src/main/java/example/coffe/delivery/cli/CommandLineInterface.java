@@ -1,30 +1,19 @@
 package example.coffe.delivery.cli;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 
-import example.coffe.boundary.UserRegistrationController;
-import example.coffe.boundary.UserRegistrationPresenter;
-import example.coffe.boundary.request.RegisterUserRequest;
-import example.coffe.boundary.response.RegisterationUserResponse;
-
-public class CommandLineInterface implements UserRegistrationPresenter {
+public class CommandLineInterface {
 	
-	private UserRegistrationController userRegistrationController;
+	private CLIController controller;
+	private CLIPresenter presenter;
 
-	public CommandLineInterface(UserRegistrationController userRegistrationController) {
-		this.userRegistrationController = userRegistrationController;
+	public CommandLineInterface(CLIController controller, CLIPresenter presenter) {
+		this.controller = controller;
+		this.presenter = presenter;
 	}
 
-	@Override
-	public void present(RegisterationUserResponse response) {
-		System.out.println("Response: " + response.getMessage());
-	}
-	
-	
 	public void start() {
 		boolean keepRunning = true;
 		
@@ -40,7 +29,11 @@ public class CommandLineInterface implements UserRegistrationPresenter {
 				
 				if (isRegistrationCommand) {
 					String name = nextLine.substring("Register".length(), nextLine.length()).toString();
-					userRegistrationController.handle(new RegisterUserRequest(name));
+					controller.createNewAccount(name);
+					String viewModel = presenter.getViewModel();
+					System.out.println(viewModel);
+				} else {
+					System.err.println("Failed to recognize command");
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
