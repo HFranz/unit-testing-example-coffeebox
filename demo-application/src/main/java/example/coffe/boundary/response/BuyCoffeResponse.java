@@ -4,10 +4,14 @@ import java.util.Objects;
 
 public class BuyCoffeResponse {
 
-	private final String message;
+	private final boolean successfull;
 
-	public BuyCoffeResponse(String message) {
-		this.message = message;
+	public BuyCoffeResponse(boolean successfull) {
+		this.successfull = successfull;
+	}
+	
+	public boolean isSuccessfull() {
+		return successfull;
 	}
 
 	@Override
@@ -20,12 +24,12 @@ public class BuyCoffeResponse {
 
 		BuyCoffeResponse other = (BuyCoffeResponse) obj;
 		
-		return Objects.equals(message, other.message);
+		return Objects.equals(successfull, other.successfull);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(message);
+		return Objects.hash(successfull);
 	}
 	
 }

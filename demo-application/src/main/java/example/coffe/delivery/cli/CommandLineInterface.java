@@ -33,7 +33,7 @@ public class CommandLineInterface {
 					String viewModel = presenter.getViewModel();
 					System.out.println(viewModel);
 				} else {
-					System.err.println("Failed to recognize command");
+					System.err.println("Unkown command '" + nextLine + "'");
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -1,17 +1,31 @@
 package example.coffe.boundary.response;
 
 import java.util.Objects;
+import java.util.Optional;
+
+import example.coffe.entity.Account;
 
 public class RegisterationUserResponse {
 
-	private final String message;
+	private final Optional<Account> account;
+	private final boolean successful;
 	
-	public RegisterationUserResponse(String message) {
-		this.message = message;
+	public RegisterationUserResponse(boolean successful, Account account) {
+		this.successful = successful;
+		this.account = Optional.of(account);
+	}
+	
+	public RegisterationUserResponse(boolean successful) {
+		this.successful = successful;
+		this.account = Optional.empty();
 	}
 
-	public String getMessage() {
-		return message;
+	public Optional<Account> getAccount() {
+		return account;
+	}
+
+	public boolean isSuccessful() {
+		return successful;
 	}
 	
 	@Override
@@ -24,11 +38,16 @@ public class RegisterationUserResponse {
 		
 		RegisterationUserResponse other = (RegisterationUserResponse) obj;
 		
-		return Objects.equals(message, other.message);
+		return Objects.equals(successful, other.successful) && Objects.equals(account, other.account);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(message);
+		return Objects.hash(successful, account);
+	}
+
+	@Override
+	public String toString() {
+		return "RegisterationUserResponse [account=" + account + ", successful=" + successful + "]";
 	}
 }

@@ -9,7 +9,10 @@ public class CLIPresenter implements OutputBoundary<RegisterationUserResponse> {
 	
 	@Override
 	public void output(RegisterationUserResponse response) {
-		viewModel = "Response: " + response.getMessage();
+		if (response.isSuccessful() && response.getAccount().isPresent())
+			viewModel = "Successfully created account with id " + response.getAccount().get().getId();
+		else
+			viewModel = "Failed to create account";
 	}
 	
 	public String getViewModel() {

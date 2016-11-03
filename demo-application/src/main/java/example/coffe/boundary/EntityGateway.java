@@ -1,13 +1,17 @@
 package example.coffe.boundary;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 public interface EntityGateway<T> {
 
-	T findById(String id);
+	Optional<T> findById(UUID id);
 
 	void store(T entity);
 	
-	List<T> findAll();
+	Stream<T> findAll();
+	
+	UUID getNewId();
 
 }

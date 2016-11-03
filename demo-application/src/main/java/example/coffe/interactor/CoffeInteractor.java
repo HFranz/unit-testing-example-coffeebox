@@ -1,5 +1,7 @@
 package example.coffe.interactor;
 
+import java.util.Optional;
+
 import example.coffe.boundary.EntityGateway;
 import example.coffe.boundary.InputBoundary;
 import example.coffe.boundary.OutputBoundary;
@@ -23,9 +25,13 @@ public class CoffeInteractor implements InputBoundary<BuyCoffeRequest> {
 
 	@Override
 	public void handle(BuyCoffeRequest request) {
-		Account account = accountRegistration.findById(request.getName());
-		coffeRegister.debitCoffe(account, request.getCoffeType());
-		buyCoffeOutputBoundary.output(new BuyCoffeResponse("Success"));
+		Optional<Account> account = accountRegistration.findById(request.getAccountId());
+		if (account.isPresent()) {
+			coffeRegister.debitCoffe(account.get(), request.getCoffeType());
+			buyCoffeOutputBoundary.output(new BuyCoffeResponse(true));
+		} else {
+			buyCoffeOutputBoundary.output(new BuyCoffeResponse(false));
+		}
 	}
 
 }

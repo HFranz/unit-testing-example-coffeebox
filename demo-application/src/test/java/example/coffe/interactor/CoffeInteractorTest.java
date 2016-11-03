@@ -3,6 +3,7 @@ package example.coffe.interactor;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -20,10 +21,9 @@ import example.coffe.entity.CoffeRegister;
 import example.coffe.entity.CoffeType;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CoffeBoxApplicationTest {
+public class CoffeInteractorTest {
 
-	private static final String NAME = "Mister Foo";
-	
+	private static final Account ACCOUNT = new Account(UUID.randomUUID(), "Mister X");
 	@Mock
 	private CoffeRegister coffeRegister;
 	@Mock
@@ -40,12 +40,20 @@ public class CoffeBoxApplicationTest {
 	
 	@Test
 	public void testThatCoffeIsOrderPasses() throws Exception {
-		Account account = new Account(UUID.randomUUID(), NAME);
-		when(accountGateway.findById(NAME)).thenReturn(account);
+		when(accountGateway.findById(ACCOUNT.getId())).thenReturn(Optional.of(ACCOUNT));
 		
-		coffeBoxApp.handle(new BuyCoffeRequest(CoffeType.COFFE, NAME));
+		coffeBoxApp.handle(new BuyCoffeRequest(CoffeType.COFFE, ACCOUNT.getId()));
 		
-		verify(coffeRegister).debitCoffe(account, CoffeType.COFFE);
-		verify(buyCoffe).output(new BuyCoffeResponse("Success"));
+		verify(coffeRegister).debitCoffe(ACCOUNT, CoffeType.COFFE);
+		verify(buyCoffe).output(new BuyCoffeResponse(true));
+	}
+
+	@Test
+	public void testThatCoffeRequestFailsForNotExistingAccount() throws Exception {
+		when(accountGateway.findById(ACCOUNT.getId())).thenReturn(Optional.empty());
+		
+		coffeBoxApp.handle(new BuyCoffeRequest(CoffeType.ESPRESSO, ACCOUNT.getId()));
+		
+		verify(buyCoffe).output(new BuyCoffeResponse(false));
 	}
 }

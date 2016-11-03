@@ -33,5 +33,11 @@ public class Account {
 		
 		return Objects.equals(other.id, id) && Objects.equals(other.name, name);
 	}
+
+	@Override
+	public String toString() {
+		return "Account [name=" + name + ", id=" + id + "]";
+	}
+	
 	
 }

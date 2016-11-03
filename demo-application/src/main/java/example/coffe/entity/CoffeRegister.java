@@ -31,15 +31,17 @@ public class CoffeRegister {
 
 	public CoffeBill createBill() {
 		Map<UUID, BigDecimal> calculatedSums = Maps.newHashMap();
-		for (Account account : accountGateway.findAll()) {
-			List<Debit> accountDebitsForNextBill = debits.stream().filter(debit -> account.getId().equals(debit.getAccountId())).collect(Collectors.toList());
-			BigDecimal calculatedSum = accountDebitsForNextBill.stream()
-					.map(debit -> debit.getPrice())
+
+		accountGateway.findAll().forEach(account -> {
+			List<Debit> accountDebitsForNextBill = debits.stream() //
+					.filter(debit -> account.getId().equals(debit.getAccountId())) //
+					.collect(Collectors.toList());
+			BigDecimal calculatedSum = accountDebitsForNextBill.stream() //
+					.map(debit -> debit.getPrice()) //
 					.reduce(BigDecimal.ZERO, (sum, price) -> sum.add(price));
-			
 			calculatedSums.put(account.getId(), calculatedSum);
 			debits.removeAll(accountDebitsForNextBill);
-		}
+		});
 		return new CoffeBill(calculatedSums);
 	}
 

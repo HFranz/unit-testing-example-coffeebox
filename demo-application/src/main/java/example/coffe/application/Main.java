@@ -5,8 +5,8 @@ import example.coffe.delivery.cli.CLIController;
 import example.coffe.delivery.cli.CLIPresenter;
 import example.coffe.delivery.cli.CommandLineInterface;
 import example.coffe.entity.Account;
-import example.coffe.entity.InMemoryAccountGateway;
 import example.coffe.interactor.AccountInteractor;
+import example.coffe.persistence.InMemoryAccountGateway;
 
 public class Main {
 
